@@ -1,143 +1,205 @@
 <template>
   <div class="event-list-page">
-    <div class="header-section">
-      <h2 class="section-title">Upcoming Events</h2>
-      <p class="section-desc">
-        Discover the latest gatherings and activities happening near you.
-      </p>
-    </div>
-
     <div class="event-grid">
-      <div v-for="i in 6" :key="i" class="event-card">
-        <div class="event-body">
-          <div class="event-meta">
-            <span class="event-date">Oct {{ 10 + i }}, 2026</span>
-            <span class="event-category">Community</span>
-          </div>
+      <div 
+        v-for="event in events" 
+        :key="event.id" 
+        class="event-card"
+      >
+        <div class="event-top">
+          <span class="event-date">{{ event.date }}</span>
+          <span class="event-category">{{ event.category }}</span>
+        </div>
 
-          <h3>Community Gathering {{ i }}</h3>
-          <p class="event-loc">📍 Main Auditorium, City Center</p>
-          <p class="event-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at velit vel magna
-            interdum scelerisque.
-          </p>
+        <h3>{{ event.title }}</h3>
 
-          <div class="card-footer">
-            <router-link :to="`/browse/events/${i}`" class="btn-link">
-              View Details &rarr;
-            </router-link>
-          </div>
+        <p class="event-location">
+          <span class="pin-icon">📍</span> {{ event.location }}
+        </p>
+
+        <p class="event-description">{{ event.description }}</p>
+
+        <div class="event-footer">
+          <router-link :to="`/browse/events/${event.id}`">
+            View Event Details →
+          </router-link>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+<script setup>
+// Data disesuaikan persis dengan gambar referensi awal Anda
+const events = [
+  {
+    id: 1,
+    date: 'Oct 12, 2026',
+    category: 'WORKSHOP',
+    title: 'Vue.js Mastery Workshop',
+    location: 'Tech Hub, Jakarta',
+    description: 'Learn advanced Vue 3 concepts, Composition API, and state management to build high-performance web applications interactively.'
+  },
+  {
+    id: 2,
+    date: 'Oct 15, 2026',
+    category: 'MEETUP',
+    title: 'National Tech Meetup',
+    location: 'Main Auditorium, City Center',
+    description: 'A gathering of hundreds of developers and tech enthusiasts to share the latest industry trends and expand professional networks.'
+  },
+  {
+    id: 3,
+    date: 'Nov 02, 2026',
+    category: 'COMPETITION',
+    title: 'Startup Pitch Competition',
+    location: 'Innovation Center',
+    description: 'Watch the best local startup founders pitch their innovative ideas live in front of a panel of renowned investors.'
+  },
+  {
+    id: 4,
+    date: 'Nov 10, 2026',
+    category: 'WORKSHOP',
+    title: 'UI/UX Design Sprint',
+    location: 'Creative Studio',
+    description: 'A hands-on session on designing user interfaces by implementing layout systems and visual hierarchy principles.'
+  },
+  {
+    id: 5,
+    date: 'Nov 20, 2026',
+    category: 'SEMINAR',
+    title: 'Digital Marketing Seminar',
+    location: 'Grand Hotel Hall',
+    description: 'An in-depth seminar dissecting modern digital marketing strategies, from SEO optimization to user conversion tactics.'
+  },
+  {
+    id: 6,
+    date: 'Dec 05, 2026',
+    category: 'CONFERENCE',
+    title: 'Community Leaders Summit',
+    location: 'Gatherly HQ',
+    description: 'An exclusive year-end conference for community leaders to formulate sustainable ecosystem development strategies.'
+  }
+]
+</script>
+
 <style scoped>
-.header-section {
-  margin-bottom: 3rem;
+.event-list-page {
+  padding: 40px;
+  /* Diberi margin-top agar konten turun dan tidak tertutup navbar */
+  margin-top: 80px; 
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
-.section-title {
-  font-size: 2.2rem;
-  color: #1c1948;
-  margin-bottom: 0.5rem;
-}
-
-.section-desc {
-  color: #666;
-  font-size: 1.1rem;
-}
-
+/* GRID 3 COLUMN */
 .event-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 
+/* CARD */
 .event-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-  border: 1px solid #f0f0f0;
-  transition:
-    transform 0.3s ease,
-    border-color 0.3s ease;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 14px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
-.event-card:hover {
-  transform: translateY(-5px);
-  border-color: #ddd;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-}
-
-.event-body {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.event-meta {
+/* TOP */
+.event-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .event-date {
-  background: rgba(102, 68, 255, 0.1);
-  color: #6644ff;
-  padding: 0.4rem 0.8rem;
+  background: #eeebff;
+  color: #5b46e0;
+  padding: 6px 12px;
   border-radius: 6px;
+  font-size: 13px;
   font-weight: 600;
-  font-size: 0.85rem;
 }
 
 .event-category {
-  color: #888;
-  font-size: 0.85rem;
-  font-weight: 500;
-  text-transform: uppercase;
+  font-size: 12px;
+  color: #6c757d;
+  font-weight: 700;
   letter-spacing: 0.5px;
 }
 
-.event-body h3 {
-  color: #1c1948;
-  margin-bottom: 0.8rem;
-  font-size: 1.4rem;
+/* TITLE */
+.event-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
 }
 
-.event-loc {
-  color: #666;
-  font-size: 0.95rem;
-  margin-bottom: 1.5rem;
+/* LOCATION */
+.event-location {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.event-desc {
-  color: #555;
+.pin-icon {
+  color: #e53935;
+  font-style: normal;
+}
+
+/* DESCRIPTION */
+.event-description {
+  font-size: 13.5px;
+  color: #6c757d;
   line-height: 1.6;
-  font-size: 0.95rem;
-  margin-bottom: 2rem;
+  margin: 0 0 24px 0;
   flex-grow: 1;
 }
 
-.card-footer {
-  border-top: 1px solid #f0f0f0;
-  padding-top: 1.5rem;
+/* FOOTER */
+.event-footer {
+  border-top: 1px solid #f1f3f5;
+  padding-top: 16px;
 }
 
-.btn-link {
-  display: inline-block;
-  color: #1c1948;
-  font-weight: 600;
+.event-footer a {
   text-decoration: none;
-  transition: color 0.2s;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+  transition: color 0.2s ease;
 }
 
-.btn-link:hover {
-  color: #6644ff;
+.event-footer a:hover {
+  color: #5b46e0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .event-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .event-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .event-list-page {
+    padding: 20px;
+    margin-top: 70px;
+  }
 }
 </style>
