@@ -1,5 +1,6 @@
 <script setup>
-
+import AppButton from '@/components/ui/AppButton.vue';
+import AppCard from '@/components/ui/AppCard.vue';
 </script>
 
 
@@ -8,15 +9,11 @@
   <div class="home-page">
 
 
-    <!-- HERO SECTION : THE FOLD + Z-PATTERN -->
+    <!-- HERO SECTION -->
+
     <section class="hero-section">
 
       <div class="hero-content">
-
-        <span class="badge">
-          Welcome to Gatherly
-        </span>
-
 
         <h1 class="hero-title">
           Connect, Discover, and Experience
@@ -31,11 +28,12 @@
 
         <div class="hero-action">
 
-          <router-link 
-            to="/browse/events"
-            class="btn-primary">
+          <AppButton
+            variant="primary"
+            @click="$router.push('/browse/events')"
+          >
             Discover Events
-          </router-link>
+          </AppButton>
 
         </div>
 
@@ -46,7 +44,8 @@
 
 
 
-    <!-- FEATURES SECTION : ADAPTIVE GRID -->
+
+    <!-- FEATURES SECTION -->
 
     <section class="features-section">
 
@@ -62,18 +61,20 @@
           Everything you need to host or attend unforgettable events.
         </p>
 
+
       </div>
+
 
 
 
       <div class="features-grid">
 
 
-        <div class="feature-card">
+        <AppCard class="feature-card">
 
 
           <div class="feature-icon">
-            🔎
+            🔍
           </div>
 
 
@@ -83,16 +84,18 @@
 
 
           <p>
-            Find events tailored to your interests.
+            Find events tailored to your interests using our smart category
+            and location filters.
           </p>
 
 
-        </div>
+        </AppCard>
 
 
 
 
-        <div class="feature-card">
+
+        <AppCard class="feature-card">
 
 
           <div class="feature-icon">
@@ -106,16 +109,19 @@
 
 
           <p>
-            Register and get digital tickets instantly.
+            Register with one click and get your digital QR ticket instantly
+            on your device.
           </p>
 
 
-        </div>
+        </AppCard>
 
 
 
 
-        <div class="feature-card">
+
+
+        <AppCard class="feature-card">
 
 
           <div class="feature-icon">
@@ -129,17 +135,21 @@
 
 
           <p>
-            Manage attendees and events easily.
+            Manage attendees, track revenue, and scan QR codes with our
+            comprehensive dashboard.
           </p>
 
 
-        </div>
+        </AppCard>
+
 
 
       </div>
 
 
+
     </section>
+
 
 
   </div>
@@ -149,58 +159,33 @@
 
 
 
+
 <style scoped>
 
-/* ==========================
-   GLOBAL HOME LAYOUT
-========================== */
 
-
-.home-page {
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 40px;
-
-}
-
-
-
-/* ==========================
-   HERO SECTION
-   THE FOLD
-========================== */
-
+/* HERO */
 
 .hero-section {
 
-
   min-height: 65vh;
 
+  display:flex;
 
-  display: flex;
+  align-items:center;
 
-  justify-content: center;
+  justify-content:center;
 
-  align-items: center;
+  text-align:center;
 
+  background:var(--bg-light);
 
-  text-align: center;
+  border-radius:var(--space-6);
 
+  border:1px solid var(--border-color);
 
-  padding: 40px;
+  padding:var(--space-12) var(--space-6);
 
-
-  background: #fdfdfd;
-
-
-  border-radius: 20px;
-
-
-  border: 1px solid #eeeeee;
-
+  margin-bottom:var(--space-12);
 
 }
 
@@ -208,152 +193,59 @@
 
 .hero-content {
 
-  max-width: 750px;
+  max-width:800px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
 
 }
 
-
-
-.badge {
-
-
-  display: inline-block;
-
-
-  padding: 8px 18px;
-
-
-  background: #eeeaff;
-
-
-  color: #6644ff;
-
-
-  border-radius: 50px;
-
-
-  margin-bottom: 20px;
-
-
-  font-weight: 600;
-
-
-}
 
 
 
 .hero-title {
 
+  font-size:4rem;
 
-  font-size: 3rem;
+  font-weight:800;
 
+  color:var(--text-main);
 
-  font-weight: 800;
+  line-height:1.1;
 
-
-  line-height: 1.2;
-
-
-  color: #1c1948;
-
-
-  margin-bottom: 20px;
-
+  margin-bottom:var(--space-6);
 
 }
+
 
 
 
 .hero-subtitle {
 
+  font-size:1.25rem;
 
-  font-size: 1.1rem;
+  color:var(--text-muted);
 
+  line-height:1.6;
 
-  color: #666;
+  margin-bottom:var(--space-8);
 
-
-  line-height: 1.6;
-
-
-  margin-bottom: 25px;
-
-
-}
-
-
-
-.hero-action {
-
-  display: flex;
-
-  justify-content: center;
-
-}
-
-
-
-.btn-primary {
-
-
-  display: inline-block;
-
-
-  background: #6644ff;
-
-
-  color: white;
-
-
-  padding: 12px 28px;
-
-
-  border-radius: 10px;
-
-
-  text-decoration: none;
-
-
-  font-weight: 600;
-
-
-  transition: 0.3s;
-
-
-}
-
-
-
-.btn-primary:hover {
-
-
-  background: #5533ee;
-
-
-  transform: translateY(-3px);
-
+  max-width:600px;
 
 }
 
 
 
 
-/* ==========================
-   FEATURES SECTION
-   ADAPTIVE GRID
-========================== */
+/* FEATURES */
 
 
 .features-section {
 
-
-  display: flex;
-
-  flex-direction: column;
-
-
-  gap: 20px;
-
+  padding:0 0 var(--space-12) 0;
 
 }
 
@@ -361,9 +253,9 @@
 
 .features-header {
 
+  text-align:center;
 
-  text-align: center;
-
+  margin-bottom:var(--space-8);
 
 }
 
@@ -371,11 +263,11 @@
 
 .features-header h2 {
 
+  font-size:2.2rem;
 
-  color: #1c1948;
+  color:var(--text-main);
 
-  margin-bottom: 8px;
-
+  margin-bottom:var(--space-2);
 
 }
 
@@ -383,103 +275,75 @@
 
 .features-header p {
 
+  color:var(--text-muted);
 
-  color: #666;
-
+  font-size:1.1rem;
 
 }
+
 
 
 
 .features-grid {
 
+  display:grid;
 
-  display: grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 
-
-  grid-template-columns:
-
-  repeat(auto-fit, minmax(280px, 1fr));
-
-
-  gap: 20px;
-
+  gap:var(--space-8);
 
 }
+
+
 
 
 
 .feature-card {
 
+  padding:var(--space-8);
 
-  background: white;
-
-
-  padding: 24px;
-
-
-  border-radius: 16px;
-
-
-  border: 1px solid #e4e4e7;
-
-
-  text-align: center;
-
-
-  transition: 0.3s;
-
+  text-align:center;
 
 }
 
 
-
-.feature-card:hover {
-
-
-  transform: translateY(-5px);
-
-
-}
 
 
 
 .feature-icon {
 
+  font-size:3rem;
 
-  font-size: 35px;
-
-
-  margin-bottom: 15px;
-
+  margin-bottom:var(--space-4);
 
 }
+
+
 
 
 
 .feature-card h3 {
 
+  font-size:1.3rem;
 
-  color: #1c1948;
+  color:var(--text-main);
 
-
-  margin-bottom: 10px;
-
+  margin-bottom:var(--space-2);
 
 }
+
+
 
 
 
 .feature-card p {
 
+  color:var(--text-muted);
 
-  color: #666;
-
-
-  line-height: 1.5;
-
+  line-height:1.6;
 
 }
+
 
 
 </style>

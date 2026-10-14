@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import Navbar from "@/components/Navbar.vue";
-import Breadcrumb from "@/components/Breadcrumb.vue";
 </script>
 
 <template>
 <div class="app-layout">
-<Navbar />
-<main class="main-content">
-<Breadcrumb />
-<router-view />
-</main>
+  <Navbar />
+  <main class="main-content">
+    <router-view />
+  </main>
 </div>
 </template>
 
@@ -21,11 +19,11 @@ flex-direction: column;
 }
 
 .main-content {
-flex: 1;
-padding: 2rem;
-max-width: 1440px;
-margin: 0 auto;
-width: 100%;
+  flex: 1;
+  padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 </style>

@@ -6,9 +6,11 @@ const route = useRoute()
 
 const breadcrumbs = computed(() => {
   const matched = route.matched
+
   let crumbs = matched
     .map((m) => {
       let path = m.path
+
       if (path.includes(':')) {
         path = route.path
       }
@@ -21,7 +23,7 @@ const breadcrumbs = computed(() => {
     })
     .filter((m) => m.meta && m.meta.breadcrumb)
 
-  // Sisipkan 'Event List' sebelum elemen terakhir jika di halaman detail event
+
   if (route.name === 'event-detail') {
     crumbs.splice(crumbs.length - 1, 0, {
       path: '/browse/events',
@@ -29,7 +31,7 @@ const breadcrumbs = computed(() => {
     })
   }
 
-  // Tambahkan 'Home' di awal jika belum ada
+
   if (crumbs.length === 0 || crumbs[0].meta.breadcrumb !== 'Home') {
     crumbs.unshift({
       path: '/',
@@ -41,29 +43,39 @@ const breadcrumbs = computed(() => {
 })
 </script>
 
+
 <template>
   <nav v-if="breadcrumbs.length > 0" class="breadcrumb">
     <ul>
-      <li v-for="(crumb, index) in breadcrumbs" :key="index">
+      <li 
+        v-for="(crumb, index) in breadcrumbs" 
+        :key="index"
+      >
         <span v-if="index > 0" class="separator">/</span>
 
-        <router-link v-if="index < breadcrumbs.length - 1" :to="crumb.path">
+        <router-link 
+          v-if="index < breadcrumbs.length - 1" 
+          :to="crumb.path"
+        >
           {{ crumb.meta.breadcrumb }}
         </router-link>
 
         <span v-else class="active-crumb">
           {{ crumb.meta.breadcrumb }}
         </span>
+
       </li>
     </ul>
   </nav>
 </template>
+
+
 <style scoped>
 .breadcrumb {
-  margin-bottom: 2rem;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+  background: transparent;
+  border-radius: 0;
 }
 
 .breadcrumb ul {
@@ -72,13 +84,14 @@ const breadcrumbs = computed(() => {
   padding: 0;
   margin: 0;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .breadcrumb a {
   text-decoration: none;
   color: var(--primary, #6644ff);
   font-weight: 500;
+  font-size: 14px;
 }
 
 .breadcrumb a:hover {
@@ -87,12 +100,13 @@ const breadcrumbs = computed(() => {
 
 .separator {
   color: #888;
-  margin: 0 0.5rem;
+  margin: 0 0.3rem;
 }
 
 .active-crumb {
   color: #333;
   font-weight: 600;
+  font-size: 14px;
 }
 
 @media (prefers-color-scheme: dark) {
