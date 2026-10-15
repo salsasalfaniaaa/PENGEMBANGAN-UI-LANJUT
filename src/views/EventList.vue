@@ -1,517 +1,159 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useEvents } from '@/composables/useEvents';
+import EventCard from '@/components/event/EventCard.vue';
 import SearchBar from '@/components/event/SearchBar.vue';
 import CategoryFilter from '@/components/event/CategoryFilter.vue';
+import AppButton from '@/components/ui/AppButton.vue';
 
+const router = useRouter();
+
+// MENGONSUMSI SINGLE SOURCE OF TRUTH (Hanya mengambil event yang berstatus aktif)
+const { activeEvents } = useEvents();
 
 const searchQuery = ref('');
-const selectedCategory = ref('All');
-
-
+const selectedCategory = ref('All'); // Diperbaiki dari 'Al1' ke 'All'
 const categories = [
-  'All',
-  'Workshop',
-  'Meetup',
-  'Competition',
-  'Seminar',
-  'Conference'
+    'All',
+    'Workshop',
+    'Meetup',
+    'Competition',
+    'Seminar',
+    'Conference'
 ];
 
-
-const events = ref([
-  {
-    id: 1,
-    date: 'Oct 12, 2026',
-    category: 'Workshop',
-    title: 'Vue.js Mastery Workshop',
-    location: 'Tech Hub, Jakarta',
-    description:
-      'Learn advanced Vue 3 concepts, Composition API, and state management to build high-performance web applications interactively.'
-  },
-  {
-    id: 2,
-    date: 'Oct 15, 2026',
-    category: 'Meetup',
-    title: 'National Tech Meetup',
-    location: 'Main Auditorium, City Center',
-    description:
-      'A gathering of developers and tech enthusiasts to share the latest industry trends and expand professional networks.'
-  },
-  {
-    id: 3,
-    date: 'Nov 02, 2026',
-    category: 'Competition',
-    title: 'Startup Pitch Competition',
-    location: 'Innovation Center',
-    description:
-      'Watch startup founders pitch their innovative ideas in front of investors.'
-  },
-  {
-    id: 4,
-    date: 'Nov 10, 2026',
-    category: 'Workshop',
-    title: 'UI/UX Design Sprint',
-    location: 'Creative Studio',
-    description:
-      'A hands-on session about designing user interfaces and visual hierarchy.'
-  },
-  {
-    id: 5,
-    date: 'Nov 20, 2026',
-    category: 'Seminar',
-    title: 'Digital Marketing Seminar',
-    location: 'Grand Hotel Hall',
-    description:
-      'Learn modern digital marketing strategies from SEO to conversion.'
-  },
-  {
-    id: 6,
-    date: 'Dec 05, 2026',
-    category: 'Conference',
-    title: 'Community Leaders Summit',
-    location: 'Gatherly HQ',
-    description:
-      'Conference for community leaders to build sustainable ecosystems.'
-  }
-]);
-
-
-
+// FILTERING REAKTIF TERHADAP DATA STATE AKTIF
 const filteredEvents = computed(() => {
+    return activeEvents.value.filter(event => {
+        const matchSearch =
+            event.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+            event.loc.toLowerCase().includes(searchQuery.value.toLowerCase());
 
-  return events.value.filter(event => {
+        const matchCat =
+            selectedCategory.value === 'All' ||
+            event.cat === selectedCategory.value;
 
-    const keyword = searchQuery.value.toLowerCase();
-
-
-    const matchSearch =
-      event.title.toLowerCase().includes(keyword) ||
-      event.location.toLowerCase().includes(keyword);
-
-
-    const matchCategory =
-      selectedCategory.value === 'All' ||
-      event.category.toLowerCase() ===
-      selectedCategory.value.toLowerCase();
-
-
-    return matchSearch && matchCategory;
-
-  });
-
+        return matchSearch && matchCat;
+    });
 });
 
+const handleViewDetail = (id) => {
+    router.push(`/browse/events/${id}`);
+};
 </script>
 
-
-
 <template>
-
-<div class="event-list-page">
-
-
-  <!-- HEADER -->
-
-  <div class="page-header">
-
-    <h1>
-      Upcoming Events
-    </h1>
-
-    <p>
-      Discover workshops, seminars, tech meetups, and competitions near you.
-    </p>
-
-  </div>
-
-
-
-  <!-- SEARCH FILTER -->
-
-  <div class="filter-section">
-
-
-    <SearchBar
-      v-model="searchQuery"
-    />
-
-
-    <CategoryFilter
-      :categories="categories"
-      v-model="selectedCategory"
-    />
-
-
-  </div>
-
-
-
-
-  <!-- EMPTY STATE -->
-
-  <div
-    v-if="filteredEvents.length === 0"
-    class="empty-state"
-  >
-
-    No events found matching your criteria.
-
-  </div>
-
-
-
-
-  <!-- EVENTS -->
-
-  <div
-    v-else
-    class="event-grid"
-  >
-
-
-    <div
-      v-for="event in filteredEvents"
-      :key="event.id"
-      class="event-card"
-    >
-
-
-      <div class="event-top">
-
-
-        <span class="event-date">
-          {{ event.date }}
-        </span>
-
-
-        <span class="event-category">
-          {{ event.category }}
-        </span>
-
-
-      </div>
-
-
-
-
-      <h3>
-        {{ event.title }}
-      </h3>
-
-
-
-
-      <p class="event-location">
-        📍 {{ event.location }}
-      </p>
-
-
-
-
-      <p class="event-description">
-
-        {{ event.description }}
-
-      </p>
-
-
-
-
-      <div class="event-footer">
-
-        <router-link :to="`/browse/events/${event.id}`">
-
-          View Event Details →
-
-        </router-link>
-
-      </div>
-
-
-
+    <div class="event-list-page">
+        <div class="header-section">
+            <h2 class="section-title">Upcoming Events</h2>
+            <p class="section-desc">
+                Discover workshops, seminars, tech meetups, and competitions near you.
+            </p>
+        </div>
+
+        <div class="filters-section">
+            <SearchBar v-model="searchQuery" />
+            <CategoryFilter
+                :categories="categories"
+                v-model="selectedCategory"
+            />
+        </div>
+
+        <!-- GRID EVENT AKTIF -->
+        <div v-if="filteredEvents.length > 0" class="event-grid">
+            <EventCard
+                v-for="event in filteredEvents"
+                :key="event.id"
+                :event="event"
+                @view-detail="handleViewDetail"
+            />
+        </div>
+
+        <!-- FRIENDLY EMPTY STATE -->
+        <div v-else class="empty-state">
+            <!-- Ikon Kalender ditambahkan di sini -->
+            <div class="empty-icon">📅</div>
+            <h3>No Events Available Yet</h3>
+            <p>
+                There are currently no active events scheduled. Are you an organizer?
+                Publish and manage your first event today through the Dashboard!
+            </p>
+
+            <div class="empty-action">
+                <AppButton
+                    variant="primary"
+                    @click="router.push('/dashboard')"
+                >
+                    Go to Organizer Dashboard &rarr;
+                </AppButton>
+            </div>
+        </div>
     </div>
-
-
-
-  </div>
-
-
-</div>
-
-
 </template>
 
-
-
 <style scoped>
-
-
-.event-list-page {
-
-  padding: 10px 0;
-
+.header-section {
+    margin-bottom: var(--space-8);
 }
 
-
-
-/* HEADER */
-
-.page-header {
-
-  margin-bottom: 25px;
-
+.section-title {
+    font-size: 2.2rem;
+    margin-bottom: var(--space-2);
 }
 
-
-.page-header h1 {
-
-  font-size: 32px;
-
-  font-weight: 800;
-
-  color:#16162c;
-
-  margin:0 0 8px;
-
+.section-desc {
+    color: var(--text-muted);
+    font-size: 1.1rem;
 }
 
-
-.page-header p {
-
-  color:#667085;
-
-  font-size:15px;
-
+/* Memperbaiki jarak antara SearchBar dan CategoryFilter */
+.filters-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4); /* Menambahkan jarak antar elemen filter */
+    margin-bottom: var(--space-6);
 }
 
-
-
-/* FILTER */
-
-.filter-section {
-
-  display:flex;
-
-  flex-direction:column;
-
-  gap:12px;
-
-  margin-bottom:25px;
-
-}
-
-
-
-/* EMPTY */
-
-.empty-state {
-
-  height:160px;
-
-  background:white;
-
-  border:1px solid #e5e7eb;
-
-  border-radius:12px;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  color:#667085;
-
-  font-size:14px;
-
-}
-
-
-
-/* GRID */
-
+/* ADAPTIVE GRID */
 .event-grid {
-
-  display:grid;
-
-  grid-template-columns:repeat(4,1fr);
-
-  gap:18px;
-
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-6);
 }
 
-
-
-/* CARD */
-
-.event-card {
-
-  background:white;
-
-  border:1px solid #e5e7eb;
-
-  border-radius:12px;
-
-  padding:18px;
-
-  min-height:260px;
-
-  display:flex;
-
-  flex-direction:column;
-
+/* FRIENDLY EMPTY STATE */
+.empty-state {
+    text-align: center;
+    padding: var(--space-12) var(--space-8);
+    color: var(--text-muted);
+    background: white;
+    border-radius: var(--space-4);
+    border: 1px dashed var(--border-color);
+    max-width: 600px;
+    margin: var(--space-8) auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
 }
 
-
-
-/* TOP */
-
-.event-top {
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  margin-bottom:18px;
-
+.empty-icon {
+    font-size: 3.5rem;
+    margin-bottom: var(--space-3);
 }
 
-
-
-.event-date {
-
-  background:#eeebff;
-
-  color:#6246ff;
-
-  padding:5px 10px;
-
-  border-radius:6px;
-
-  font-size:12px;
-
-  font-weight:600;
-
+.empty-state h3 {
+    font-size: 1.5rem;
+    color: var(--text-main);
+    margin-bottom: var(--space-2);
 }
 
-
-
-.event-category {
-
-  font-size:11px;
-
-  font-weight:700;
-
-  color:#667085;
-
+.empty-state p {
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
+    font-size: 1rem;
 }
 
-
-
-/* TEXT */
-
-.event-card h3 {
-
-  font-size:17px;
-
-  color:#111827;
-
-  margin:0 0 12px;
-
-  line-height:1.3;
-
+.empty-action {
+    display: flex;
+    justify-content: center;
 }
-
-
-
-.event-location {
-
-  font-size:12px;
-
-  color:#667085;
-
-  margin-bottom:14px;
-
-}
-
-
-
-.event-description {
-
-  font-size:12px;
-
-  line-height:1.5;
-
-  color:#667085;
-
-  flex:1;
-
-}
-
-
-
-/* FOOTER */
-
-.event-footer {
-
-  border-top:1px solid #eeeeee;
-
-  padding-top:12px;
-
-}
-
-
-
-.event-footer a {
-
-  font-size:12px;
-
-  font-weight:700;
-
-  text-decoration:none;
-
-  color:#111827;
-
-}
-
-
-
-
-@media(max-width:1200px){
-
-.event-grid{
-
-grid-template-columns:repeat(3,1fr);
-
-}
-
-}
-
-
-
-@media(max-width:800px){
-
-.event-grid{
-
-grid-template-columns:repeat(2,1fr);
-
-}
-
-}
-
-
-
-@media(max-width:500px){
-
-.event-grid{
-
-grid-template-columns:1fr;
-
-}
-
-}
-
-
 </style>
