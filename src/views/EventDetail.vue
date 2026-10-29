@@ -1,115 +1,262 @@
 <script setup>
-import AppButton from '@/components/ui/AppButton.vue';
-import AppCard from '@/components/ui/AppCard.vue';
+import { computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useEvents } from "@/composables/useEvents";
+import AppButton from "@/components/ui/AppButton.vue";
+import AppCard from "@/components/ui/AppCard.vue";
+
+const route = useRoute();
+const router = useRouter();
+const { getEventById } = useEvents();
+
+const event = computed(() => getEventById(route.params.id));
 </script>
 
 <template>
   <div class="event-detail-page">
-    <button @click="$router.push('/browse/events')" class="btn-back">&larr; Back to Events</button>
+    <button class="btn-back" @click="router.push('/browse/events')">
+      &larr; Back to Events
+    </button>
 
-    <div class="detail-header">
-      <span class="event-tag">Workshop & Training</span>
-      <h1>Vue.js Mastery Workshop {{ $route.params.id }}</h1>
-      <div class="meta-info">
-        <span class="meta-item">October 12, 2026</span>
-        <span class="meta-item">Tech Hub, Jakarta Pusat</span>
-        <span class="meta-item">Quota: 150 Attendees</span>
+    <div v-if="event">
+      <div class="detail-header">
+        <div class="header-tags">
+          <span class="event-tag">{{ event.cat }}</span>
+          <span v-if="event.done" class="status-tag status-ended"
+            >Event Finished</span
+          >
+          <span v-else class="status-tag status-live">Open Registration</span>
+        </div>
+
+        <h1>{{ event.title }}</h1>
+
+        <div class="meta-info">
+          <span class="meta-item">🗓️ {{ event.date }}</span>
+          <span class="meta-item">{{ event.loc }}</span>
+          <span class="meta-item">👥 Quota: {{ event.quota }} Attendees</span>
+        </div>
+      </div>
+
+      <div class="detail-content grid-asymmetric">
+        <div class="main-desc">
+          <h2>About This Event</h2>
+          <p class="description-text">{{ event.desc }}</p>
+        </div>
+
+        <div class="sidebar">
+          <AppCard class="ticket-card sticky-pane">
+            <h3>Attendee Registration</h3>
+            <p class="price">{{ event.price }}</p>
+            <p class="ticket-desc">
+              {{
+                event.done
+                  ? "Registration is closed as this event has ended."
+                  : "Secure your ticket now before quota is filled."
+              }}
+            </p>
+
+            <AppButton
+              v-if="!event.done"
+              variant="primary"
+              class="btn-register"
+              @click="
+                alert(
+                  'Ticket registered successfully! Your digital QR ticket has been sent to your email.',
+                )
+              "
+            >
+              Register Now
+            </AppButton>
+            <AppButton
+              v-else
+              variant="secondary"
+              class="btn-register btn-disabled"
+              disabled
+            >
+              Registration Closed
+            </AppButton>
+            <p v-if="!event.done" class="spots">
+              Only {{ event.quota }} seats available!
+            </p>
+          </AppCard>
+        </div>
       </div>
     </div>
 
-    <!-- ASYMMETRICAL LAYOUT -->
-    <div class="detail-content grid-asymmetric">
-      
-      <!-- F-PATTERN: Breaking text with Headings & Bullet Points -->
-      <div class="main-desc">
-        <h2>About This Event</h2>
-        <p>
-          Welcome to the biggest web interface development training event of the year!
-          Gatherly is collaborating with the local developer community to host a comprehensive workshop
-          designed specifically to bring together professionals, enthusiasts, and students.
-        </p>
-        <p>
-          In this session, we will discuss various current industry challenges, dissect the implementation
-          of Single Page Applications (SPA), and practice hands-on Layout System design prioritizing visual hierarchy.
-          You will gain practical insights that can be directly applied to your future projects or career.
-        </p>
-
-        <h2>Event Agenda</h2>
-        <ul class="agenda-list">
-          <li><strong>09:00 AM</strong> Registration & QR Check-in Scanning</li>
-          <li><strong>10:00 AM</strong> Session 1: Vue Router & Navigation Fundamentals</li>
-          <li><strong>11:30 AM</strong> Coffee Break & Networking Session</li>
-          <li><strong>01:00 PM</strong> Session 2: Layout System & Grid Implementation</li>
-          <li><strong>03:00 PM</strong> Q&A & Closing Remarks</li>
-        </ul>
-      </div>
-
-      <!-- STRONGEST FOCAL POINT -->
-      <div class="sidebar">
-        <!-- 1 FOCAL POINT & STICKY PANE-->
-        <AppCard class="ticket-card sticky-pane">
-          <h3>Attendee Registration</h3>
-          <p class="price">Free</p>
-          <p class="ticket-desc">Secure your seat now before the quota is full.</p>
-          <AppButton variant="primary" class="btn-register">
-            Register Now
-          </AppButton>
-          <p class="spots">Only 12 seats left!</p>
-        </AppCard>
-      </div>
+    <div v-else class="not-found-card">
+      <h2>404 - Event Not Found</h2>
+      <p>
+        The event you are looking for is unavailable or has been removed by the
+        organizer.
+      </p>
+      <AppButton variant="primary" @click="router.push('/browse/events')">
+        Back to Event Catalog
+      </AppButton>
     </div>
   </div>
 </template>
 
 <style scoped>
-.btn-back { background: none; border: none; font-size: 1rem;
-cursor: pointer; margin-bottom: var(--space-6); color: var(--text-muted); }
-
-.detail-header {
-background: var(--bg-light); border-radius: var(--space-4); border: 1px solid var(--border-color); padding: var(--space-12) var(--space-8);
-margin-bottom: var(--space-8);
+.btn-back {
+  padding: 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-bottom: var(--space-6);
 }
 
-.event-tag { display: inline-block; background: rgba(102, 68, 255, 0.1); color: var(--primary); padding: var(--space-1) var(--space-4);
-border-radius: 50px; font-weight: 600; font-size: 0.9rem; margin-bottom: var(--space-4); }
+.btn-back:hover {
+  color: var(--primary);
+}
 
-.detail-header h1 { font-size: 2.8rem; margin-bottom: var(--space-4); line-height: 1.2; }
-.meta-info { display: flex; gap: var(--space-6); }
-.meta-item { color: var(--text-muted); font-weight: 500; font-size: 1.05rem; }
+.detail-header {
+  padding: var(--space-12) var(--space-8);
+  margin-bottom: var(--space-8);
+  background: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--space-4);
+}
 
-/* ASYMMETRICAL GRID */
+.header-tags {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.event-tag {
+  padding: var(--space-1) var(--space-4);
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: rgba(102, 68, 255, 0.1);
+  border-radius: 50px;
+}
+
+.status-tag {
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 50px;
+}
+
+.status-live {
+  color: #27ae60;
+  background: rgba(46, 204, 113, 0.15);
+}
+
+.status-ended {
+  color: #6c757d;
+  background: rgba(108, 117, 125, 0.15);
+}
+
+.detail-header h1 {
+  color: var(--text-main);
+  font-size: 2.8rem;
+  line-height: 1.2;
+  margin-bottom: var(--space-4);
+}
+
+.meta-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+}
+
+.meta-item {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
 .grid-asymmetric {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: var(--space-12);
 }
 
-.main-desc h2 { margin-bottom: var(--space-4); font-size: 1.8rem; border-left: 4px solid var(--primary); padding-left: var(--space-2); }
-.main-desc p { color: var(--text-muted); line-height: 1.8; margin-bottom: var(--space-6); font-size: 1.05rem; }
+.main-desc h2 {
+  padding-left: var(--space-2);
+  font-size: 1.8rem;
+  margin-bottom: var(--space-4);
+  border-left: 4px solid var(--primary);
+}
 
-.agenda-list { list-style: none; padding: 0; margin: 0 0 var(--space-8) 0; }
-.agenda-list li { padding: var(--space-3) 0; border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 1.05rem; }
+.description-text {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: var(--space-6);
+}
 
-/* FOCAL POINT CARD */
 .ticket-card {
   padding: var(--space-8);
   text-align: center;
 }
 
-/* STICKY BEHAVIOR */
 .sticky-pane {
   position: sticky;
   top: 100px;
 }
 
-.ticket-card h3 { font-size: 1.5rem; margin-bottom: var(--space-2); }
-.price { font-size: 2.8rem; font-weight: 800; color: var(--primary); margin-bottom: var(--space-2); }
-.ticket-desc { color: var(--text-muted); margin-bottom: var(--space-6); }
+.ticket-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-2);
+}
 
-.btn-register { width: 100%; }
-.spots { margin-top: var(--space-4); color: #e63946; font-weight: 600; font-size: 0.95rem; }
+.price {
+  color: var(--primary);
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: var(--space-2);
+}
+
+.ticket-desc {
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: var(--space-6);
+}
+
+.btn-register {
+  width: 100%;
+}
+
+.btn-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.spots {
+  color: #27ae60;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: var(--space-4);
+}
+
+.not-found-card {
+  padding: var(--space-12);
+  text-align: center;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--space-4);
+}
+
+.not-found-card h2 {
+  margin-bottom: var(--space-2);
+}
+
+.not-found-card p {
+  color: var(--text-muted);
+  margin-bottom: var(--space-6);
+}
 
 @media (max-width: 900px) {
-  .grid-asymmetric { grid-template-columns: 1fr; }
+  .grid-asymmetric {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

@@ -15,14 +15,15 @@
 defineProps({
   categories: {
     type: Array,
-    required: true
+    required: true,
   },
   modelValue: {
     type: String,
-    default: 'All'
-  }
+    default: "All",
+  },
 });
-defineEmits(['update:modelValue']);
+
+defineEmits(["update:modelValue"]);
 </script>
 
 <style scoped>
@@ -32,6 +33,7 @@ defineEmits(['update:modelValue']);
   flex-wrap: wrap;
   margin-bottom: var(--space-6);
 }
+
 .filter-btn {
   background: var(--bg-light);
   border: 1px solid var(--border-color);
@@ -42,10 +44,12 @@ defineEmits(['update:modelValue']);
   color: var(--text-muted);
   transition: all 0.2s;
 }
+
 .filter-btn:hover {
   border-color: var(--primary);
   color: var(--primary);
 }
+
 .filter-btn.active {
   background: var(--primary);
   color: white;
