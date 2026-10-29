@@ -1,41 +1,28 @@
-
 <script setup lang="ts">
-import { RouterView, RouterLink } from 'vue-router';
+import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
   <!-- RAIL & PANE SYSTEM
-  Kerangka khusus untuk kebutuhan produktivitas/pengelolaan aplikasi. -->
+       Kerangka khusus untuk kebutuhan produktivitas/pengelolaan aplikasi. -->
   <div class="dashboard-layout">
-
     <!-- RAIL: Navigasi samping yang posisinya terkunci (fixed) -->
     <aside class="dashboard-rail">
       <div class="rail-brand">
         <router-link to="/">Gatherly Organizer</router-link>
       </div>
-
       <nav class="rail-nav">
-        <router-link
-          to="/dashboard"
-          class="rail-link"
-          exact-active-class="active"
+        <router-link to="/dashboard" class="rail-link active"
+          >Overview</router-link
         >
-          Dashboard
-        </router-link>
-
-        <router-link
-          to="/dashboard/events"
-          class="rail-link"
-          active-class="active"
-        >
-          Event Management
-        </router-link>
+        <a href="#" class="rail-link">My Events</a>
+        <a href="#" class="rail-link">Attendees</a>
+        <a href="#" class="rail-link">QR Check-in</a>
       </nav>
-
       <div class="rail-footer">
-        <router-link to="/" class="rail-link">
-          &larr; Back to Public
-        </router-link>
+        <router-link to="/" class="rail-link"
+          >&larr; Back to Public</router-link
+        >
       </div>
     </aside>
 
@@ -45,19 +32,18 @@ import { RouterView, RouterLink } from 'vue-router';
         <h1>Dashboard</h1>
         <div class="user-profile">Admin</div>
       </header>
-
       <div class="pane-content">
         <RouterView />
       </div>
     </main>
-
   </div>
 </template>
 
 <style scoped>
-/* Full-screen app Layout (khas dashboard).
-Tinggi dibatasi 100vh agar bagian rail tidak ikut terguyur ke atas saat pane di-scroll. */
-
+/*
+  Full-screen app layout (khas dashboard).
+  Tinggi dibatasi 100vh agar bagian rail tidak ikut terguyur ke atas saat pane di-scroll.
+*/
 .dashboard-layout {
   display: flex;
   height: 100vh;
@@ -98,7 +84,9 @@ Tinggi dibatasi 100vh agar bagian rail tidak ikut terguyur ke atas saat pane di-
   color: #a0a0b0;
   text-decoration: none;
   font-weight: 500;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 
 .rail-link:hover,
