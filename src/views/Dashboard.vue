@@ -1,8 +1,8 @@
 <script setup>
-import { useRouter } from "vue-router";
-import { useEvents } from "@/composables/useEvents";
-import AppButton from "@/components/ui/AppButton.vue";
-import AppCard from "@/components/ui/AppCard.vue";
+import { useRouter } from 'vue-router';
+import { useEvents } from '@/composables/useEvents';
+import AppCard from '@/components/ui/AppCard.vue';
+import AppButton from '@/components/ui/AppButton.vue';
 
 const router = useRouter();
 const { events, totalEvents, activeEvents, completedEvents } = useEvents();
@@ -12,14 +12,11 @@ const { events, totalEvents, activeEvents, completedEvents } = useEvents();
   <div class="dashboard-overview">
     <div class="dashboard-header">
       <div>
-        <h2>Organizer Analytics &amp; Overview</h2>
-        <p class="subtitle">
-          Monitor real-time event statistics and track status across all managed
-          events.
-        </p>
+        <h2>Organizer Analytics & Overview</h2>
+        <p class="subtitle">Monitor real-time statistics and track status across all managed events.</p>
       </div>
       <AppButton variant="primary" @click="router.push('/dashboard/events')">
-        🎛️ Manage Events &rarr;
+        Manage Events &rarr;
       </AppButton>
     </div>
 
@@ -29,13 +26,11 @@ const { events, totalEvents, activeEvents, completedEvents } = useEvents();
         <p class="metric-value">{{ totalEvents }}</p>
         <span class="metric-hint">All recorded events</span>
       </AppCard>
-
       <AppCard class="metric-card">
         <h3>Active Events</h3>
         <p class="metric-value text-success">{{ activeEvents.length }}</p>
         <span class="metric-hint">Live in public catalog</span>
       </AppCard>
-
       <AppCard class="metric-card">
         <h3>Completed Events</h3>
         <p class="metric-value text-muted">{{ completedEvents.length }}</p>
@@ -47,14 +42,9 @@ const { events, totalEvents, activeEvents, completedEvents } = useEvents();
       <div class="table-header">
         <div>
           <h3>Recent Events Status Overview</h3>
-          <p class="table-subtitle">
-            Master registry of all events managed across the Gatherly platform.
-          </p>
+          <p class="table-subtitle">Master registry of all events managed across the Gatherly platform.</p>
         </div>
-        <button
-          class="btn-manage-link"
-          @click="router.push('/dashboard/events')"
-        >
+        <button class="btn-manage-link" @click="router.push('/dashboard/events')">
           Open Event Management &rarr;
         </button>
       </div>
@@ -64,7 +54,7 @@ const { events, totalEvents, activeEvents, completedEvents } = useEvents();
           <tr>
             <th>Event Title</th>
             <th>Category</th>
-            <th>Date &amp; Location</th>
+            <th>Date & Location</th>
             <th>Quota</th>
             <th>Status</th>
           </tr>
@@ -75,31 +65,20 @@ const { events, totalEvents, activeEvents, completedEvents } = useEvents();
               <div class="empty-table-content">
                 <span class="empty-icon">📊</span>
                 <p>No events recorded in the system yet.</p>
-                <AppButton
-                  variant="primary"
-                  @click="router.push('/dashboard/events')"
-                >
+                <AppButton variant="primary" @click="router.push('/dashboard/events')">
                   Create First Event
                 </AppButton>
               </div>
             </td>
           </tr>
-
           <tr v-for="item in events" :key="item.id">
             <td class="font-semibold">{{ item.title }}</td>
-            <td>
-              <span class="category-badge">{{ item.cat }}</span>
-            </td>
+            <td><span class="category-badge">{{ item.cat }}</span></td>
             <td>{{ item.date }} &bull; {{ item.loc }}</td>
             <td>{{ item.quota }} Pax</td>
             <td>
-              <span
-                :class="[
-                  'status-badge',
-                  item.done ? 'status-completed' : 'status-active',
-                ]"
-              >
-                {{ item.done ? "Completed" : "Active" }}
+              <span :class="['status-badge', item.done ? 'status-completed' : 'status-active']">
+                {{ item.done ? 'Completed' : 'Active' }}
               </span>
             </td>
           </tr>
@@ -117,16 +96,16 @@ const { events, totalEvents, activeEvents, completedEvents } = useEvents();
 
 .dashboard-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-8);
   flex-wrap: wrap;
   gap: var(--space-4);
-  margin-bottom: var(--space-8);
 }
 
 .dashboard-header h2 {
-  color: var(--text-main);
   font-size: 2rem;
+  color: var(--text-main);
   margin-bottom: var(--space-1);
 }
 
@@ -148,50 +127,46 @@ const { events, totalEvents, activeEvents, completedEvents } = useEvents();
 }
 
 .metric-card h3 {
-  color: var(--text-muted);
   font-size: 0.95rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.5px;
   margin-bottom: var(--space-2);
-  text-transform: uppercase;
 }
 
 .metric-value {
-  color: var(--primary);
   font-size: 2.6rem;
   font-weight: 800;
+  color: var(--primary);
   line-height: 1;
   margin-bottom: var(--space-2);
 }
 
 .metric-hint {
-  color: var(--text-muted);
   font-size: 0.85rem;
+  color: var(--text-muted);
 }
 
-.text-success {
-  color: #2ecc71 !important;
-}
+.text-success { color: #2ecc71 !important; }
+.text-muted { color: #8a8d93 !important; }
 
-.text-muted {
-  color: #8a8d93 !important;
-}
-
+/* DATA TABLE CONTAINER */
 .data-table-container {
-  padding: var(--space-6);
   background: white;
-  border: 1px solid var(--border-color);
+  padding: var(--space-6);
   border-radius: var(--space-4);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
 }
 
 .table-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin-bottom: var(--space-6);
 }
 
 .table-header h3 {
@@ -205,74 +180,70 @@ const { events, totalEvents, activeEvents, completedEvents } = useEvents();
 }
 
 .btn-manage-link {
-  padding: 0;
-  color: var(--primary);
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
   background: none;
   border: none;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0;
 }
-
-.btn-manage-link:hover {
-  text-decoration: underline;
-}
+.btn-manage-link:hover { text-decoration: underline; }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.data-table th,
-.data-table td {
+.data-table th, .data-table td {
   padding: var(--space-3) var(--space-4);
   text-align: left;
   border-bottom: 1px solid var(--border-color);
 }
 
 .data-table th {
+  background: var(--bg-light);
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
-  background: var(--bg-light);
 }
 
 .font-semibold {
-  color: var(--text-main);
   font-weight: 600;
+  color: var(--text-main);
 }
 
 .category-badge {
-  padding: 4px 10px;
+  background: rgba(102, 68, 255, 0.1);
   color: var(--primary);
+  padding: 4px 10px;
+  border-radius: 50px;
   font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
-  background: rgba(102, 68, 255, 0.1);
-  border-radius: 50px;
 }
 
 .status-badge {
   padding: 4px 10px;
+  border-radius: 50px;
   font-size: 0.8rem;
   font-weight: 700;
-  border-radius: 50px;
 }
 
 .status-active {
-  color: #27ae60;
   background: rgba(46, 204, 113, 0.15);
+  color: #27ae60;
 }
 
 .status-completed {
-  color: #6c757d;
   background: rgba(108, 117, 125, 0.15);
+  color: #6c757d;
 }
 
 .empty-table-cell {
-  padding: var(--space-12) var(--space-4);
   text-align: center;
+  padding: var(--space-12) var(--space-4);
   background: var(--bg-light);
 }
 
@@ -293,9 +264,6 @@ const { events, totalEvents, activeEvents, completedEvents } = useEvents();
 }
 
 @media (max-width: 768px) {
-  .dashboard-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  .dashboard-header { flex-direction: column; align-items: flex-start; }
 }
 </style>
