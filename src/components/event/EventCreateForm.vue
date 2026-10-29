@@ -1,9 +1,9 @@
 <script setup>
-import { reactive, ref } from 'vue'
-import AppCard from '@/components/ui/AppCard.vue'
-import AppButton from '@/components/ui/AppButton.vue'
+import { reactive, ref } from 'vue';
+import AppCard from '@/components/ui/AppCard.vue';
+import AppButton from '@/components/ui/AppButton.vue';
 
-const emit = defineEmits(['submit', 'cancel'])
+const emit = defineEmits(['submit', 'cancel']);
 
 // STATE FORMULIR CREATE EVENT
 const form = reactive({
@@ -14,28 +14,30 @@ const form = reactive({
   quota: 100,
   price: 'Free',
   desc: ''
-})
+});
 
-const errorMessage = ref('')
-const successMessage = ref('')
+const errorMessage = ref('');
+const successMessage = ref('');
 
-// Format helper to convert YYYY-MM-DDTHH:mm into "Nov 25, 2026 • 10:00 AM"
+// Format Helper to convert YYYY-MM-DDTHH:mm -> Nov 25, 2026 10:00 AM
 const formatEventDate = (dt) => {
-  if (!dt) return ''
-  const dateObj = new Date(dt)
-  if (isNaN(dateObj.getTime())) return dt
-  const datePart = dateObj.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
-  const timePart = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
-  return `${datePart} • ${timePart}`
-}
+  if (!dt) return '';
+  const dateObj = new Date(dt);
+  if (isNaN(dateObj.getTime())) return dt;
+
+  const datePart = dateObj.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+  const timePart = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+  return `${datePart} - ${timePart}`;
+};
 
 // HANDLER SUBMIT FORM CREATE EVENT
 const handleSubmitEvent = () => {
   // Validate Empty Input
   if (!form.title.trim() || !form.date || !form.loc.trim() || !form.desc.trim()) {
-    errorMessage.value = 'Please fill in all required fields before publishing the event!'
-    successMessage.value = ''
-    return
+    errorMessage.value = 'Please fill in all required fields before publishing the event!';
+    successMessage.value = '';
+    return;
   }
 
   emit('submit', {
@@ -46,23 +48,23 @@ const handleSubmitEvent = () => {
     quota: form.quota,
     price: form.price,
     desc: form.desc
-  })
+  });
 
   // Reset Form
-  form.title = ''
-  form.date = ''
-  form.loc = ''
-  form.quota = 100
-  form.price = 'Free'
-  form.desc = ''
-  errorMessage.value = ''
-  successMessage.value = 'Event published successfully and is now live!'
+  form.title = '';
+  form.date = '';
+  form.loc = '';
+  form.quota = 100;
+  form.price = 'Free';
+  form.desc = '';
+  errorMessage.value = '';
+  successMessage.value = 'Event published successfully and is now live!';
 
   // Clear success notification after 1 second
   setTimeout(() => {
-    successMessage.value = ''
-  }, 1000)
-}
+    successMessage.value = '';
+  }, 1000);
+};
 </script>
 
 <template>
@@ -73,6 +75,7 @@ const handleSubmitEvent = () => {
     <div v-if="errorMessage" class="alert-box alert-error">
       {{ errorMessage }}
     </div>
+
     <div v-if="successMessage" class="alert-box alert-success">
       {{ successMessage }}
     </div>
@@ -122,7 +125,7 @@ const handleSubmitEvent = () => {
         <button type="button" class="btn-secondary-action" @click="emit('cancel')">
           Cancel
         </button>
-        <AppButton type="submit" variant="primary">
+        <AppButton variant="primary" type="submit">
           Publish Event Now
         </AppButton>
       </div>
@@ -197,7 +200,7 @@ const handleSubmitEvent = () => {
   border-radius: 8px;
   font-size: 0.95rem;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.25s;
   background: white;
   box-sizing: border-box;
   width: 100%;

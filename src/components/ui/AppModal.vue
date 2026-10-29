@@ -26,7 +26,7 @@ defineProps({
   },
   variant: {
     type: String,
-    default: 'danger' // 'danger' | 'primary' | 'success'
+    default: 'danger' // danger | primary | success
   },
   badgeText: {
     type: String,
@@ -36,9 +36,9 @@ defineProps({
     type: String,
     default: ''
   }
-})
+});
 
-defineEmits(['confirm', 'close'])
+defineEmits(['confirm', 'close']);
 </script>
 
 <template>
@@ -51,12 +51,10 @@ defineEmits(['confirm', 'close'])
           </span>
           <h3 class="modal-title">{{ title }}</h3>
         </div>
-
         <div class="modal-body">
           <p v-if="message" class="modal-message">{{ message }}</p>
           <slot />
         </div>
-
         <div class="modal-footer">
           <slot name="footer">
             <button v-if="showCancel" class="btn-cancel" @click="$emit('close')">

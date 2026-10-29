@@ -15,9 +15,9 @@ const menus = [
       {
         name: 'Event List',
         path: '/browse/events',
-        children: [{ name: 'Event Detail (Sample)', path: '/browse/events/1' }],
       },
       { name: 'Category', path: '/browse/category' },
+      { name: 'Your Events', path: '/browse/your-events' },
     ],
   },
   { name: 'Contact', path: '/contact' },
@@ -51,8 +51,7 @@ onUnmounted(() => {
         >
           <path d="M12 0L22.3923 6V18L12 24L1.6077 18V6L12 0Z" fill="white" />
           <path
-            d="M15 9.5 C15 9.5 14 8 12 8 C9.5 8 8 10 8 12.5 C8 15 9.5 17 12 17 C14 17 15 16
-15.5 14.5 V 12.5 H 12.5"
+            d="M15 9.5 C15 9.5 14 8 12 8 C9.5 8 8 10 8 12.5 C8 15 9.5 17 12 17 C14 17 15 16 15.5 14.5 V 12.5 H 12.5"
             stroke="#1A1643"
             stroke-width="2.5"
             stroke-linecap="round"
@@ -61,6 +60,7 @@ onUnmounted(() => {
         </svg>
         <span class="logo-text">Gatherly</span>
       </router-link>
+
       <ul class="nav-menu">
         <li class="nav-item" v-for="menu in menus" :key="menu.name">
           <router-link
@@ -68,8 +68,7 @@ onUnmounted(() => {
             class="nav-link"
             :class="{
               active:
-                route.path === menu.path || (menu.path !== '/' &&
-                route.path.startsWith(menu.path)),
+                route.path === menu.path || (menu.path !== '/' && route.path.startsWith(menu.path)),
             }"
           >
             {{ menu.name }}
@@ -138,8 +137,7 @@ onUnmounted(() => {
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="2" y1="12" x2="22" y2="12"></line>
             <path
-              d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0
-1 4-10z"
+              d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
             ></path>
           </svg>
           <span class="lang-text">EN</span>
@@ -157,6 +155,7 @@ onUnmounted(() => {
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </div>
+
         <button class="hamburger-btn">
           <svg
             width="24"
@@ -292,12 +291,9 @@ onUnmounted(() => {
   transform: rotate(180deg);
 }
 
-/* ==================================
-  DROPDOWN & SUBMENU STYLES
-  Inspired by user reference image
-  ================================== */
+/* DROPDOWN & SUBMENU STYLES */
 .dropdown-menu {
-  display: none; /* diubah jadi block saat hover */
+  display: none;
   position: absolute;
   top: 100%;
   left: 0;
@@ -310,7 +306,7 @@ onUnmounted(() => {
   border-radius: 4px;
 }
 
-/* Tampilkan dropdown level 1 saat nav-item di-hover */
+/* Tampilkan dropdown Level 1 saat nav-item di-hover */
 .nav-item:hover .dropdown-menu {
   display: block;
   animation: fadeIn 0.2s ease-out;
@@ -328,9 +324,7 @@ onUnmounted(() => {
   text-decoration: none;
   color: #333; /* text gelap */
   font-size: 0.95rem;
-  transition:
-    background-color 0.2s,
-    color 0.2s;
+  transition: background-color 0.2s, color 0.2s;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
@@ -348,10 +342,10 @@ onUnmounted(() => {
 .submenu {
   display: none;
   position: absolute;
-  top: 0;
   left: 100%;
   background-color: #d8d8d8;
   min-width: 220px;
+  top: 0;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -359,7 +353,7 @@ onUnmounted(() => {
   border-radius: 4px;
 }
 
-/* Tampilkan submenu level 2 saat dropdown-item di-hover */
+/* Tampilkan submenu Level 2 saat dropdown-item di-hover */
 .dropdown-item:hover .submenu {
   display: block;
   animation: fadeIn 0.2s ease-out;
@@ -376,13 +370,7 @@ onUnmounted(() => {
   }
 }
 
-/* Submenu pada parent (jika left:100% terlalu mentok layar) 
-  Kita bisa membiarkannya default left 100%.
-*/
-
-/* ==================================
-  RIGHT SECTION
-  ================================== */
+/* RIGHT SECTION */
 .nav-right {
   display: flex;
   align-items: center;
@@ -444,7 +432,6 @@ onUnmounted(() => {
   .nav-menu {
     display: none;
   }
-
   .lang-selector {
     display: none;
   }

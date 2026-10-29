@@ -1,5 +1,5 @@
 <script setup>
-import AppCard from '@/components/ui/AppCard.vue'
+import AppCard from '@/components/ui/AppCard.vue';
 
 defineProps({
   event: {
@@ -10,9 +10,9 @@ defineProps({
     type: Boolean,
     default: false
   }
-})
+});
 
-defineEmits(['view-detail', 'complete', 'delete'])
+defineEmits(['view-detail', 'complete', 'delete']);
 </script>
 
 <template>
@@ -38,7 +38,7 @@ defineEmits(['view-detail', 'complete', 'delete'])
           View Details
         </button>
         <button class="btn-action btn-complete" @click="$emit('complete', event)">
-          Complete Event
+          ✔ Complete Event
         </button>
         <button class="btn-action btn-delete" @click="$emit('delete', event)">
           Delete
@@ -175,7 +175,7 @@ defineEmits(['view-detail', 'complete', 'delete'])
 .btn-delete {
   color: #e63946;
   border-color: rgba(230, 57, 70, 0.3);
-  flex: 0 0 auto;
+  flex: 0 auto;
 }
 
 .btn-delete:hover {
