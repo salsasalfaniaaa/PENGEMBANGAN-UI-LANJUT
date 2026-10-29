@@ -1,134 +1,138 @@
 <script setup>
-import { computed } from 'vue';
+import AppCard from '@/components/ui/AppCard.vue'
 
-const props = defineProps({
+defineProps({
   event: {
     type: Object,
     required: true
+  },
+  isRegistered: {
+    type: Boolean,
+    default: false
   }
-});
+})
 
-defineEmits(['view-detail']);
-
-// Menggabungkan tanggal dan waktu
-const formattedDateTime = computed(() => {
-  const date = props.event.date || 'Oct 15, 2026';
-  const time = props.event.time || '10:00 AM';
-  return `${date} • ${time}`;
-});
+defineEmits(['view-detail'])
 </script>
 
 <template>
-  <div class="event-card" @click="$emit('view-detail', event.id)">
-    <!-- Header: Date Badge & Category Tag -->
-    <div class="card-header">
-      <span class="date-badge">
-        {{ formattedDateTime }}
-      </span>
-      <span class="category-tag">
-        {{ (event.cat || 'WORKSHOP').toUpperCase() }}
-      </span>
+  <AppCard class="event-card-wrapper">
+    <div class="event-body">
+      <div class="event-meta">
+        <div class="meta-left">
+          <span class="event-date">{{ event.date }}</span>
+          <span v-if="isRegistered" class="badge-registered">Registered</span>
+        </div>
+        <span class="event-category">{{ event.cat }}</span>
+      </div>
+
+      <h3 class="event-title">{{ event.title }}</h3>
+      <p class="event-loc">{{ event.loc }}</p>
+      <p class="event-desc">{{ event.desc }}</p>
+
+      <div class="card-footer">
+        <!-- DIPERBAIKI: Menggunakan $emit yang benar, bukan Semit -->
+        <button type="button" class="btn-link" @click="$emit('view-detail', event.id)">
+          View Event Details &rarr;
+        </button>
+      </div>
     </div>
-
-    <!-- Title -->
-    <h3 class="event-title">
-      {{ event.title }}
-    </h3>
-
-    <!-- Location dengan Ikon Pin Merah -->
-    <div class="event-location">
-      <span class="location-icon">📍</span>
-      <span class="location-text">
-        {{ event.loc || event.location }}
-      </span>
-    </div>
-
-    <!-- Description -->
-    <p class="event-description">
-      {{ event.desc || event.description }}
-    </p>
-  </div>
+  </AppCard>
 </template>
 
 <style scoped>
-.event-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 24px;
+.event-card-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  height: 100%;
 }
 
-.event-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+.event-body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-/* Header Section */
-.card-header {
+.event-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4px;
+  margin-bottom: var(--space-4);
+  gap: var(--space-2);
 }
 
-.date-badge {
-  background-color: #f0ebff;
-  color: #6c5ce7;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 20px;
-}
-
-.category-tag {
-  color: #64748b;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-/* Title */
-.event-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1e293b;
-  line-height: 1.3;
-  margin: 0;
-}
-
-/* Location Section */
-.event-location {
+.meta-left {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.875rem;
-  color: #64748b;
+  gap: var(--space-2);
+  flex-wrap: wrap;
 }
 
-.location-icon {
-  font-size: 0.9rem;
+.event-date {
+  background: rgba(102, 68, 255, 0.1);
+  color: var(--primary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
 }
 
-.location-text {
+.badge-registered {
+  background: #dbeafe;
+  color: #1d4ed8;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.event-category {
+  color: var(--text-muted);
+  font-size: 0.85rem;
   font-weight: 500;
-  color: #64748b;
+  text-transform: uppercase;
 }
 
-/* Description Section */
-.event-description {
-  font-size: 0.875rem;
-  color: #64748b;
+.event-title {
+  margin-bottom: var(--space-2);
+  font-size: 1.4rem;
+  color: var(--text-main);
+}
+
+.event-loc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: var(--space-4);
+}
+
+.event-desc {
+  color: var(--text-muted);
   line-height: 1.6;
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 6;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-size: 0.95rem;
+  margin-bottom: var(--space-6);
+  flex-grow: 1;
+}
+
+.card-footer {
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--space-4);
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-main);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0;
+}
+
+.btn-link:hover {
+  color: var(--primary);
 }
 </style>
