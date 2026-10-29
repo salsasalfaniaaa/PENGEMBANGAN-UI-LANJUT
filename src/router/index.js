@@ -82,4 +82,8 @@ const router = createRouter({
   routes
 });
 
+<<<<<<< Updated upstream
 export default router;
+=======
+export default router;
+>>>>>>> Stashed changes
