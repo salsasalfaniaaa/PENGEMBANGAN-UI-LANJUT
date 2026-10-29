@@ -1,42 +1,43 @@
-<script setup>
-defineProps({
-  modelValue: String
-});
-defineEmits(['update:modelValue']);
-</script>
-
 <template>
-  <div class="search-bar-container">
-    <input 
+  <div class="search-bar">
+    <input
       type="text"
-      class="search-input"
-      placeholder="Search events by title or location..."
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
+      placeholder="Search events by title or location..."
+      class="search-input"
     />
   </div>
 </template>
 
+<script setup>
+defineProps({
+  modelValue: {
+    type: String,
+    default: ''
+  }
+});
+defineEmits(['update:modelValue']);
+</script>
+
 <style scoped>
-.search-bar-container {
+.search-bar {
   width: 100%;
+  max-width: 500px;
+  margin-bottom: var(--space-4);
 }
 
 .search-input {
   width: 100%;
-  max-width: 550px; /* Lebar maksimal disesuaikan agar pas seperti di gambar contoh */
-  padding: 12px 18px;
-  font-size: 15px;
-  border: 1px solid #c7d2fe; /* Warna border sedikit keunguan seperti referensi */
-  border-radius: 12px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
   outline: none;
-  background-color: #ffffff;
-  box-sizing: border-box;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s;
 }
 
 .search-input:focus {
-  border-color: #6644ff;
-  box-shadow: 0 0 0 3px rgba(102, 68, 255, 0.15);
+  border-color: var(--primary);
 }
 </style>

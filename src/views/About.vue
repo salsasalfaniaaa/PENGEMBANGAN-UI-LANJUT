@@ -9,10 +9,9 @@
       <div class="text-block">
         <h2>Our Mission</h2>
         <p>
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-          dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est
-          laborum. Sed ut perspiciatis unde omnis iste natus error sit
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+          nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+          deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit
           voluptatem accusantium doloremque laudantium.
         </p>
       </div>
@@ -20,10 +19,9 @@
       <div class="text-block">
         <h2>Our Vision</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-          odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla
-          quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
-          mauris. Fusce nec tellus sed augue semper porta.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent
+          libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum
+          imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.
         </p>
       </div>
     </div>
@@ -74,7 +72,7 @@
 }
 
 .text-block h2::before {
-  content: "";
+  content: '';
   display: block;
   width: 24px;
   height: 4px;
@@ -93,7 +91,6 @@
     opacity: 0;
     transform: translateY(10px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
