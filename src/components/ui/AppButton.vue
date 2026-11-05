@@ -1,7 +1,11 @@
 <template>
-  <button :class="['app-button', `btn-${variant}`]"
-    @click="$emit('click')">
-    <slot />
+  <button
+    :type="type"
+    :disabled="disabled || loading"
+    :class="['app-button', `btn-${variant}`]"
+    @click="$emit('click')"
+  >
+    <span v-if="loading" class="btn-spinner"></span><slot />
   </button>
 </template>
 
@@ -9,11 +13,14 @@
 defineProps({
   variant: {
     type: String,
-    default: 'primary'
-  }
+    default: "primary",
+  },
+  loading: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
+  type: { type: String, default: "button" },
 });
 
-defineEmits(['click']);
+defineEmits(["click"]);
 </script>
 
 <style scoped>
@@ -27,11 +34,35 @@ defineEmits(['click']);
   cursor: pointer;
   display: inline-block;
   text-align: center;
-  transition: transform 0.2s, background-color 0.2s;
+  transition:
+    transform 0.2s,
+    background-color 0.2s;
 }
 
 .app-button:hover {
   transform: translateY(-2px);
+}
+
+.app-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none;
+}
+.btn-spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: var(--space-2);
+  vertical-align: -2px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: btn-spin 0.7s linear infinite;
+}
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .btn-primary {
@@ -39,6 +70,7 @@ defineEmits(['click']);
   color: white;
   box-shadow: 0 8px 20px rgba(102, 68, 255, 0.3);
 }
+
 .btn-primary:hover {
   background-color: var(--primary-hover);
 }
@@ -57,6 +89,7 @@ defineEmits(['click']);
   color: var(--primary);
   border: 1px solid var(--primary);
 }
+
 .btn-outline:hover {
   background-color: rgba(102, 68, 255, 0.1);
 }
