@@ -133,6 +133,7 @@
 }
 
 .form-control {
+<<<<<<< HEAD
   width: 100%;
   padding: 1rem;
   border: 1px solid #ddd;
@@ -145,6 +146,20 @@
 
 .form-control:focus {
   border-color: #6644ff;
+=======
+width: 100%;
+padding: 1rem;
+border: 1px solid #ddd;
+border-radius: 10px;
+font-size: 1rem;
+outline: none;
+transition: border-color 0.2s;
+font-family: inherit;
+}
+
+.form-control:focus {
+border-color: #6644ff;
+>>>>>>> 23df0a7 (Fix CSS syntax error on main)
 }
 
 .btn-submit {
