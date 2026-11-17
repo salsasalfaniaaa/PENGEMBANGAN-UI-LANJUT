@@ -17,6 +17,7 @@
             <p>123 Event Street, Tech City, 10101</p>
           </div>
         </div>
+
         <div class="info-item">
           <div class="info-icon">??</div>
           <div>
@@ -24,6 +25,7 @@
             <p>+62 812 3456 7890</p>
           </div>
         </div>
+
         <div class="info-item">
           <div class="info-icon">??</div>
           <div>
@@ -37,17 +39,34 @@
         <form @submit.prevent>
           <div class="form-group">
             <label>Name</label>
-            <input type="text" placeholder="John Doe" class="form-control" />
+            <input
+              type="text"
+              placeholder="John Doe"
+              class="form-control"
+            />
           </div>
+
           <div class="form-group">
             <label>Email</label>
-            <input type="email" placeholder="john@example.com" class="form-control" />
+            <input
+              type="email"
+              placeholder="john@example.com"
+              class="form-control"
+            />
           </div>
+
           <div class="form-group">
             <label>Message</label>
-            <textarea placeholder="How can we help you?" rows="5" class="form-control"></textarea>
+            <textarea
+              placeholder="How can we help you?"
+              rows="5"
+              class="form-control"
+            ></textarea>
           </div>
-          <button class="btn-submit">Send Message</button>
+
+          <button class="btn-submit" type="submit">
+            Send Message
+          </button>
         </form>
       </div>
     </div>
@@ -133,7 +152,6 @@
 }
 
 .form-control {
-<<<<<<< HEAD
   width: 100%;
   padding: 1rem;
   border: 1px solid #ddd;
@@ -142,24 +160,11 @@
   outline: none;
   transition: border-color 0.2s;
   font-family: inherit;
+  box-sizing: border-box;
 }
 
 .form-control:focus {
   border-color: #6644ff;
-=======
-width: 100%;
-padding: 1rem;
-border: 1px solid #ddd;
-border-radius: 10px;
-font-size: 1rem;
-outline: none;
-transition: border-color 0.2s;
-font-family: inherit;
-}
-
-.form-control:focus {
-border-color: #6644ff;
->>>>>>> 23df0a7 (Fix CSS syntax error on main)
 }
 
 .btn-submit {
@@ -190,6 +195,7 @@ border-color: #6644ff;
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
