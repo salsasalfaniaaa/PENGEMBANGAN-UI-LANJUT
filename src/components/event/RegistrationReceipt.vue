@@ -2,110 +2,85 @@
 defineProps({
   confirmedData: {
     type: Object,
-    default: () => ({
-      name: 'Nadia',
-      email: 'Nadiadia@gmail.com',
-      bookingRef: 'GTH-4983'
-    })
+    default: null
   },
   event: {
     type: Object,
-    default: () => ({
-      title: 'Design to Employ: Bridging Academia and the Creative Industry!',
-      date: 'Oct 23, 2026 • 10:30 AM',
-      loc: 'Jakarta Convention Center'
-    })
+    default: null
   }
-})
+});
 </script>
 
 <template>
-  <div class="receipt-wrapper">
-    <p class="receipt-text">
-      Thank you, <strong>{{ confirmedData?.name || 'Nadia' }}</strong>! Your registration for
-      <strong>{{ event?.title || 'Design to Employ: Bridging Academia and the Creative Industry!' }}</strong>
-      has been officially confirmed.
+  <div class="receipt-preview">
+    <p class="receipt-greeting">
+      Thank you, <strong>{{ confirmedData?.fullName }}</strong>! Your registration for <strong>{{ event?.title }}</strong> has been officially confirmed.
     </p>
-
-    <!-- Kotak Rincian Tiket / Detail Grey Box -->
-    <div class="details-box">
-      <div class="detail-row">
-        <span class="detail-label">Booking Reference</span>
-        <span class="ref-badge">{{ confirmedData?.bookingRef || 'GTH-4983' }}</span>
+    <div class="receipt-box">
+      <div class="receipt-row">
+        <span class="receipt-label">Booking Reference</span>
+        <span class="receipt-value ref-code">{{ confirmedData?.bookingCode }}</span>
       </div>
-
-      <div class="detail-row">
-        <span class="detail-label">Attendee Email</span>
-        <span class="detail-value text-bold">{{ confirmedData?.email || 'Nadiadia@gmail.com' }}</span>
+      <div class="receipt-row">
+        <span class="receipt-label">Attendee Email</span>
+        <span class="receipt-value">{{ confirmedData?.email }}</span>
       </div>
-
-      <div class="detail-row">
-        <span class="detail-label">Event Schedule</span>
-        <span class="detail-value text-bold">{{ event?.date || 'Oct 23, 2026 • 10:30 AM' }}</span>
+      <div class="receipt-row">
+        <span class="receipt-label">Event Schedule</span>
+        <span class="receipt-value">{{ confirmedData?.eventDate }}</span>
       </div>
-
-      <div class="detail-row">
-        <span class="detail-label">Venue / Location</span>
-        <span class="detail-value text-bold">{{ event?.loc || 'Jakarta Convention Center' }}</span>
+      <div class="receipt-row">
+        <span class="receipt-label">Venue / Location</span>
+        <span class="receipt-value">{{ confirmedData?.eventLoc }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.receipt-wrapper {
-  text-align: left;
+.receipt-preview {
+  margin-top: var(--space-2);
 }
 
-.receipt-text {
-  font-size: 13.5px;
-  color: #4b5563;
-  line-height: 1.5;
-  margin: 0 0 18px 0;
+.receipt-greeting {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
 }
 
-.receipt-text strong {
-  color: #15143d;
-  font-weight: 700;
-}
-
-.details-box {
-  background: #f9fafb;
-  border: 1px solid #f3f4f6;
-  border-radius: 12px;
-  padding: 16px 20px;
+.receipt-box {
+  background: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
-.detail-row {
+.receipt-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 13px;
+  font-size: 0.9rem;
 }
 
-.detail-label {
-  color: #6b7280;
-  font-weight: 500;
+.receipt-label {
+  color: var(--text-muted);
 }
 
-.detail-value {
-  color: #15143d;
+.receipt-value {
+  font-weight: 600;
+  color: var(--text-main);
 }
 
-.text-bold {
-  font-weight: 700;
-}
-
-.ref-badge {
-  background: #ede9fe;
-  color: #6644ff;
-  font-weight: 800;
-  font-size: 12.5px;
-  padding: 3px 8px;
-  border-radius: 6px;
-  letter-spacing: 0.03em;
+.ref-code {
+  font-family: monospace;
+  font-size: 1.05rem;
+  color: var(--primary);
+  background: rgba(102, 68, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: 4px;
 }
 </style>
